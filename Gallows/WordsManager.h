@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <fstream>
 
 using std::vector;
 using std::string;
+using std::ios;
 
 class WordsManager
 {
@@ -15,7 +17,17 @@ public:
 
     void Save() {}
 
-    void Load() {}
+    void Load() {
+        std::fstream input("words.txt", ios::in);
+        if (input.is_open())
+        {
+            string word;
+            while (input.good()) {
+                input >> word;
+                words.emplace_back(word);
+            }
+        }
+    }
 
     void Append(const string& word) {
         words.push_back(word);
