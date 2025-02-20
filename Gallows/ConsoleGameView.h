@@ -4,7 +4,7 @@
 
 class ConsoleGameView : public IGameView
 {
-	int mistakes;
+	int mistakes = 0;
 public:
 	void DisplayWord(const std::string& word) override
 	{
