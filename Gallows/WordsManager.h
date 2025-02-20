@@ -36,7 +36,7 @@ public:
             input.close();
         }
         else {
-            std::cerr << "Ошибка: файл words.txt не найден!" << std::endl;
+            std::cerr << "Error: file words.txt not found!" << std::endl;
         }
     }
 
