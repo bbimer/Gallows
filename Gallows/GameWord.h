@@ -3,13 +3,16 @@
 #include <string>
 #include <algorithm>
 
-class GameWord {
+class GameWord
+{
 private:
+	// 6 = letter
 	std::string hidden_word;
+	// 6 = l
 	std::string external_word;
-
 public:
-	GameWord(const std::string& word) : hidden_word(word)
+	GameWord(std::string& word)
+		: hidden_word(word)
 	{
 		std::string str;
 		str.insert(0, word.length(), ' ');
@@ -30,8 +33,14 @@ public:
 		return flag;
 	}
 
-	std::string& GetExternalWord() { return external_word; }
+	std::string& GetExternalWord()
+	{
+		return external_word;
+	}
 
-	bool IsGuessed() const { return hidden_word == external_word; }
-
+	bool IsGuessed() const
+	{
+		return hidden_word == external_word;
+	}
 };
+

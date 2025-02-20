@@ -4,51 +4,45 @@
 
 class ConsoleGameView : public IGameView
 {
-	int mistakes = 0;
+	int mistakes;
 public:
-	virtual void DisplayWord(const std::string& word) override {
-		for (wchar_t letter : word)
+	void DisplayWord(const std::string& word) override
+	{
+		for (char letter : word)
 		{
 			if (letter == ' ')
 			{
 				std::cout << "_ ";
 			}
-			else
-			{
+			else {
 				std::cout << letter << ' ';
 			}
 		}
 		std::cout << std::endl;
 	}
 
-	virtual void InitialMistakes(int mistakes) override {
-		this->mistakes = mistakes;
-		std::cout << "Mistakes: " << this->mistakes << std::endl;
+	void DisplayMistakes(int mistakes) override
+	{
+		std::cout << "Mistakes: (" << mistakes << "/6)" << std::endl;
 	}
 
-	virtual void DisplayMistakes(int mistakes) override {
-		if (mistakes > this->mistakes)
-		{
-			this->mistakes = mistakes;
-			std::cout << "Mistakes: " << this->mistakes << std::endl;
-		}
+	virtual void WordGuessed() override
+	{
+		std::cout << "Word Guessed !!!" << std::endl;
 	}
-	//virtual void GuessedLetter(bool value) override {
-	//
-	//}
 
-	virtual void WordGuessed() override {
-		std::cout << "Word Guessed!!!" << std::endl;
+	virtual void GameOver() override
+	{
+		std::cout << "!!! GameOver !!!\n";
 		system("pause");
 	}
-	virtual void GameOver() override {
-		std::cout << "Game Over!" << std::endl;
-		system("pause");
-	}
-	virtual bool IsGameExit() override {
+
+	virtual bool IsGameContinue() override
+	{
 		char input;
-		while (true) {
-			std::cout << "Do you want exit to main menu? (y/n): ";
+		while (true)
+		{
+			std::cout << "Do you want continue? (y/n): ";
 			std::cin >> input;
 			switch (input)
 			{
@@ -56,25 +50,26 @@ public:
 			case 'Y':
 				return true;
 				break;
-
 			case 'n':
 			case 'N':
 				return false;
+				break;
 			default:
-
+				system("cls");
 				break;
 			}
 		}
 	}
 
-	virtual void DisplayMessage(const std::string& message) override {
+	void DisplayMessage(const std::string& message) override
+	{
 		std::cout << "DisplayMessage: " << message << std::endl;
 	}
 
-	virtual char GetInputLetter() override
+	char GetInputLetter() override
 	{
 		char input;
-		std::cout << "Input the letter: " << std::endl;
+		std::cout << "Input the letter: ";
 		std::cin >> input;
 		return input;
 	}

@@ -1,4 +1,4 @@
-#include "WordsManager.h"
+#pragma once
 #include <vector>
 #include <string>
 #include <fstream>
@@ -13,7 +13,8 @@ class WordsManager
 private:
 	vector<string> words;
 
-	void Save() {
+	void Save()
+	{
 
 	}
 
@@ -27,7 +28,8 @@ public:
 		return words;
 	}
 
-	void Load() {
+	void Load()
+	{
 		std::fstream input("words.txt", ios::in);
 		if (input.is_open())
 		{
@@ -39,7 +41,8 @@ public:
 		}
 	}
 
-	void Append(std::string& word) {
-
+	void Append(std::string& word)
+	{
 	}
 };
+

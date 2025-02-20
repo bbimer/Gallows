@@ -9,14 +9,13 @@ using std::unique_ptr;
 class Game
 {
 private:
+	GameWordsBuilder wordsBuilder;
 	unique_ptr<GameWord> current_word;
 	int mistakes;
-	GameWordsBuilder wordsBuilder;
 	unique_ptr<IGameView> view;
-	const int max_mistakes = 6;
-
+	const int MAX_MISTAKES = 6;
 public:
-	Game(const shared_ptr<WordsManager>& manager,
+	Game(shared_ptr<WordsManager> manager,
 		unique_ptr<IGameView> view)
 		: wordsBuilder(manager),
 		view(std::move(view))
@@ -24,35 +23,30 @@ public:
 		mistakes = 0;
 	}
 
-	void Start() {
-		current_word = std::make_unique<GameWord>(wordsBuilder.GetRandomWord());
-		view->DisplayWord(current_word->GetExternalWord());
-		view->DisplayMistakes(mistakes);
+	void Start()
+	{
 		do
 		{
-			while (!current_word->IsGuessed() && mistakes < max_mistakes) {
-				current_word = std::make_unique<GameWord>(wordsBuilder.GetRandomWord());
+			current_word = std::make_unique<GameWord>(wordsBuilder.GetRandomWord());
+			view->DisplayWord(current_word->GetExternalWord());
+			view->DisplayMistakes(mistakes);
+			while (!current_word->IsGuessed() && mistakes < MAX_MISTAKES)
+			{
 				char letter = view->GetInputLetter();
 				if (current_word->InputLetter(letter))
-				{
 					view->DisplayWord(current_word->GetExternalWord());
-				}
 				else
-				{
-					view->DisplayMistakes(++mistakes);
-				}
-				view->WordGuessed();
+					++mistakes;
+				view->DisplayMistakes(mistakes);
 			}
-			if (mistakes < max_mistakes)
-			{
+			if (mistakes < MAX_MISTAKES)
 				view->WordGuessed();
-			}
-			else
-			{
+			else {
 				view->GameOver();
-				break;
+				// TODO: збререгти статистику до таблиці лідерів
 			}
 			current_word = std::make_unique<GameWord>(wordsBuilder.GetRandomWord());
-		} while (!view->IsGameExit());
+		} while (view->IsGameContinue());
 	}
 };
+
